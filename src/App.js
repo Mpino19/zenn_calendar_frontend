@@ -23,7 +23,7 @@ const App = () => {
       Cookies.set("_access_token", res.headers["access-token"]);
       Cookies.set("_client", res.headers["client"]);
       Cookies.set("_uid", res.headers["uid"]);
-      navigate("calendar");
+      navigate("/calendar");
     } catch (e) {
       console.log(e);
     }
@@ -34,7 +34,7 @@ const App = () => {
       try {
         const res = await getUser();
 	if (res.data.isLogin) {
-          navigate("calendar");
+          navigate("/calendar");
         }
       } catch (e) {
         console.log(e);
