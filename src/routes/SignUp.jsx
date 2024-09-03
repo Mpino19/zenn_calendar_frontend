@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Box,
   Flex,
@@ -9,17 +9,17 @@ import {
   Button,
   Link as CLink,
 } from "@chakra-ui/react";
-import { signIn, getUser } from "./lib/api/auth.js";
+import { signUp } from "../lib/api/auth.js";
 import Cookies from "js-cookie";
 
-const App = () => {
+const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const login = async () => {
+  const register = async () => {
     try {
-      const res = await signIn({ email, password });
+      const res = await signUp({ email, password });
       Cookies.set("_access_token", res.headers["access-token"]);
       Cookies.set("_client", res.headers["client"]);
       Cookies.set("_uid", res.headers["uid"]);
@@ -28,20 +28,6 @@ const App = () => {
       console.log(e);
     }
   };
-
-  useEffect(() => {
-    const f = async () => {
-      try {
-        const res = await getUser();
-	if (res.data.isLogin) {
-          navigate("/calendar");
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    f();
-  }, [navigate]);
 
   return (
     <Flex h={"100vh"}>
@@ -66,7 +52,7 @@ const App = () => {
       >
         <Box w="400px">
           <Text fontSize="24px" color="gray.700" fontWeight="bold" mb="24px">
-            ログインページ
+            ユーザー登録ページ
           </Text>
           <Input
             placeholder="メールアドレス"
@@ -80,12 +66,12 @@ const App = () => {
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
-          <Button w="400px" colorScheme="blue" mb="8px" onClick={login}>
-            ログインする
+          <Button w="400px" colorScheme="blue" mb="8px" onClick={register}>
+            登録する
           </Button>
           <Box textAlign="right">
             <CLink color="blue.500">
-              <Link to="signUp">ユーザー登録はこちら</Link>
+              <Link to="/">ログインはこちら</Link>
             </CLink>
           </Box>
         </Box>
@@ -94,4 +80,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default SignUp;
